@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> 구구단 </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js" ></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div> <!-- 마자막 결과라네: <div id="root"> <button>Like</button> </div>--> 
+    <script type="text/babel"> //자바스크립트 안에서 html 문법을 쓸수 있게 만들어줌.(babel)
+        class GuGuDan extends React.Component {
+             state = {
+                    // 처음 상태 값
+                    first: Math.ceil(Math.random() * 9), // 1~9 random number
+                    second: Math.ceil(Math.random() * 9),
+                    value: '', //입력창 (처음엔 아무것도 들어가지 않기 때문)
+                    result: '', //결과값 (처음엔 아무것도 들어가지 않기 때문)           
+                }
+
+            onSubmit = (e) => {
+                            e.preventDefault(); //
+                            //구구단 로직이 들어감 (결과값에 대한 로직)
+                            
+                            if(parseInt(this.state.value) === this.state.first * this.state.second){
+                                this.setState((prevState) => { // 새로운 state를 리턴하는 함수.
+                                    return{
+                                        result: prevState.value + '  정답 굿잡',
+                                        first: Math.ceil(Math.random() * 9),
+                                        second: Math.ceil(Math.random() * 9),
+                                         value: '',
+                                    };
+                                 }); 
+                                // 예전 값으로 새로운 state를 만들 때는 함수를 써준다. prevState
+                                // 언제 함수를 쓰냐.
+
+                                /*
+                                 this.setState((prevState) =>{
+                                    return {
+                                     value: prevState.value +1,
+                                    }
+                                 })
+                                 
+                                  
+                            }else{ 
+                                this.setState({
+                                    result : '틀렸어요ㅋㅋㅋ',
+                                    value : '',
+                                });
+                            }
+                        }
+                        */
+                
+                 onChange = (e) => {
+                this.setState({value:e.target.value}); // 변하는 부분을 스스로 컨트롤 하는 것.
+            }
+
+            render(){
+                return (
+                    <React.Fragment>
+                        <div>{this.state.first} 곱하기 {this.state.second}는?</div> 
+                        <form onSubmit={this.onSubmit}> 
+                            <input type="number" value={this.state.value} onChange = {this.onChange}/> 
+
+                            <button> 입력! </button>
+                        </form>
+                        <div> {this.state.result} </div>
+                    </React.Fragment>
+                );
+            }
+        }   
+        // form 이 있으면  <form onSubmit={this.onSubmit}>  
+        //               <button type="submit"></button>
+
+        // form 이 없으면  <button onClick={this.onSubmit}></button>
+
+        // **** 함수를 클래스 함수에 따로 뺏을 경우엔 화살표 함수를 써야한다. ******
+        /*   function  을 쓰면 this가 달라지기 때문. 따라서 직접 만들어준 함수들은 화살표 함수를 써야 한다.
+        
+
+        */
+        //  처음에 안써도 상관 없다.
+        //  constructor(props)
+        //    super(props);
+        //         this.
+
+
+ 
+         </script>
+    <script type="text/babel">
+        ReactDOM.render(<div><GuGuDan /><GuGuDan /> <GuGuDan /></div>, document.querySelector('#root')); //화면에 그리겠다.
+                     
+    </script>   
+</body>
+</html>
+
+
+ 
+         </script>
+    <script type="text/babel">
+        ReactDOM.render(<div><GuGuDan /><GuGuDan /> <GuGuDan /></div>, document.querySelector('#root')); //화면에 그리겠다.
+                     
+    </script>   
+</body>
+</html>

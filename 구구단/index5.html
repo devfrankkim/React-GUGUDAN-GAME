@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> 구구단 </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js" ></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div> <!-- 마자막 결과라네: <div id="root"> <button>Like</button> </div>--> 
+    <script type="text/babel"> //자바스크립트 안에서 html 문법을 쓸수 있게 만들어줌.(babel)
+        class GuGuDan extends React.Component {
+            constructor(props){
+                super(props);
+                this.state = {
+                    // 처음 상태 값
+                    first: Math.ceil(Math.random() * 9), // 1~9 random number
+                    second: Math.ceil(Math.random() * 9),
+                    value: '', //입력창 (처음엔 아무것도 들어가지 않기 때문)
+                    result: '', //결과값 (처음엔 아무것도 들어가지 않기 때문)
+
+                };
+            }
+
+            onSubmit = (e) => {
+                            e.preventDefault(); //======
+                            //구구단 로직이 들어감 (결과값에 대한 로직)
+                            if(parseInt(this.state.value) === this.state.first * this.state.second){
+                                this.setState((prevState) => { // 새로운 state를 리턴하는 함수.
+                                    return{
+                                        result: prevState.value + '  정답 굿잡',
+                                        first: Math.ceil(Math.random() * 9),
+                                        second: Math.ceil(Math.random() * 9),
+                                         value: '',
+                                    };
+                                 }); 
+                                 this.input.focus();  // ***입력 후에도 포커스를 잡는다.***
+                            }else{
+                                this.setState({
+                                    result : '틀렸어요ㅋㅋㅋ',
+                                    value : '',
+                                });
+                                 this.input.focus(); // ***입력 후에도 포커스를 잡는다.*** 
+                            }
+                        }
+
+            onChange = (e) => {
+                this.setState({value:e.target.value}); // 변하는 부분을 스스로 컨트롤 하는 것.
+            }
+
+            
+            onRefInput = (c) = > { this.input = c; };
+
+
+            input; 
+            // 컨텐츠 
+            render(){
+                return (
+                    <div>
+                        <div>{this.state.first} 곱하기 {this.state.second}는?</div> 
+                        <form onSubmit={this.onSubmit}> 
+                            
+                            <input ref={this.onRefInput} type="number" value={this.state.value} onChange = {this.onChange}/> 
+
+                            <button id="button" className=""> 입력! </button>
+                        </form>
+                        <div> {this.state.result} </div>
+                    </div>
+                );
+            }
+        }   
+        // document.querySelector('input').focus() ; input에 focus주기.
+        // REACT안에서 화면을 만들어준다고 생각하고, 화면은 리액트에게 맡긴다.
+        // 데이터만 우리가 저장함.
+        // DOM에 직접 접근하고 싶을 때는  ref를 써서 직접 접근한다.   ex) <input ref={(c) => {this.input = c;}}
+        // <input ref={(c) => {this.input = c;}} render() 가 계속 실행 될때마다 생기므로 따로 함수로 뺀다.
+        // onRefInput = (c) = > { this.input = c; };
+        // 리액트에서는 자바스크립트에서 class를 쓰고 있기 때문에 html에선 className으로 사용을 해야한다.  
+        // for="" => htmlFor=""
+        // class="" => className =""
+        // 
+         </script>
+    <script type="text/babel">
+        //ReactDOM을 render하는 순간 render() 로 이동해서 실행된다.
+        ReactDOM.render(<div><GuGuDan /></div>, document.querySelector('#root')); //화면에 그리겠다.
+                     
+    </script>   
+</body>
+</html>
